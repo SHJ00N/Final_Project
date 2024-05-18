@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Breaker
+  - Platform
+  - Leaf
+  - Enemy
+  - PlayerFoot
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Leaf
+  - Platform
+  - Breaker
+  - Enemy
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 823534847
+    locked: 0
+  - name: Platform
+    uniqueID: 3499801499
+    locked: 0
+  - name: Leaf
+    uniqueID: 1788829177
+    locked: 0
+  - name: Slime
+    uniqueID: 1617221667
+    locked: 0
+  - name: Player
+    uniqueID: 494730671
+    locked: 0
