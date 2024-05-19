@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
         {
             isGrounded = false;
             hitPlatform = false;
+            GameManager.Instance.score += 500;
             _animator.SetInteger("Fall", 1);
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true) ;  //발판과의 충돌 비활성화
             Instantiate(breaker, breakPos.position,Quaternion.Euler(0,0,90));
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour
             //if (transform.position.y - playerHeight >= collision.transform.position.y + enemy.enemyHeight)  //플레이어가 적을 밟았을 때
             if (!hitPlatform)
             {
-                enemy.OffEnemyActive(); //적 뒤집기고 활동 끄기
+                enemy.OffEnemyActive(); //적 뒤집고 활동 끄기
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"));    //충돌 비활성화
                 //적을 일정거리 날림
                 Vector2 movedir = new Vector2(-(transform.position.x - collision.transform.position.x) * 3f, Mathf.Abs(transform.position.y - collision.transform.position.y));
