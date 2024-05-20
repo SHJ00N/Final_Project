@@ -9,6 +9,7 @@ TagManager:
   - Leaf
   - Enemy
   - PlayerFoot
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Platform
   - Breaker
   - Enemy
-  - 
+  - Item
   - 
   - 
   - 

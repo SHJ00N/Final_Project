@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    public GameObject apple;    //점수 아이템
     public GameObject leaf; //발판 파괴 후 생성되는 오브젝트
     private int direction;  //이동 방향
 
+    private void Awake()
+    {
+        if(PlatformManager.Instance.appleActive)
+            apple.SetActive(true);  //점수 아이템 플랫폼 위에 활성화
+    }
     // Update is called once per frame
     void Update()
     {
