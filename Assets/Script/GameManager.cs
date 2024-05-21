@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
-
+using UnityEngine.UI;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     public GameObject gameEndSet;
+    public GameObject registerButtonObj;
+    public GameObject playerInputFieldObj;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI[] rank_name;
     public TextMeshProUGUI[] rank_score;
     public TextMeshProUGUI result_score;
+    public TMP_InputField nameInputField; // 이름 입력 필드
+    public Button registerButton;
 
     public int score = 0;
     public bool gameEnd = false;
@@ -34,6 +40,8 @@ public class GameManager : MonoBehaviour
         filePath = Path.Combine(Application.dataPath, "Resources/ranking.txt");
 
         LoadScores();
+
+        nameInputField.characterLimit = 3;
     }
     // Update is called once per frame
     void Update()
@@ -44,6 +52,10 @@ public class GameManager : MonoBehaviour
         {
             UpdateRanking();
             result_score.text = string.Format("{0:N0}", score);
+            if (IsRank())
+            {
+                registerButtonObj.SetActive(true);
+            }
             Invoke("gameEndActive", 2f);
         }
     }
@@ -98,5 +110,61 @@ public class GameManager : MonoBehaviour
 
             if (rank > 9) break;
         }
+    }
+
+    public void RegisterRanking()
+    {
+        playerInputFieldObj.SetActive(false);
+        string playerName = nameInputField.text;
+
+        if (!string.IsNullOrEmpty(playerName))
+        {
+            // 새로운 플레이어 점수를 랭킹에 추가
+            ranking[playerName] = score;
+
+            // 랭킹 파일에 저장
+            SaveScores();
+
+            // 랭킹 업데이트
+            UpdateRanking();
+        }
+    }
+
+    private void SaveScores()
+    {
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            int count = 0;
+            foreach (var entry in ranking)
+            {
+                writer.WriteLine($"{entry.Key}:{entry.Value}");
+                count++;
+
+                if(count >9) break;
+            }
+        }
+    }
+
+    private bool IsRank()
+    {
+        if (ranking.Count < 9) return true;
+        else
+        {
+            foreach (var entry in ranking)
+            {
+                if (score >= entry.Value) return true;
+            }
+            return false;
+        }
+    }
+    
+    public void ActiveRegisterField()
+    {
+        playerInputFieldObj.SetActive(true);
+    }
+
+    public void ReStart()
+    {
+        SceneManager.LoadScene(0);
     }
 }
