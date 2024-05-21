@@ -4810,6 +4810,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameEndSet: {fileID: 1043307598}
   scoreText: {fileID: 1454213707}
+  rank_name:
+  - {fileID: 379886920}
+  - {fileID: 666716915}
+  - {fileID: 1554298311}
+  - {fileID: 2008044113}
+  - {fileID: 406135741}
+  - {fileID: 1649616440}
+  - {fileID: 1594791484}
+  - {fileID: 623466620}
+  - {fileID: 1790055876}
+  - {fileID: 1924791080}
+  rank_score:
+  - {fileID: 1860339700}
+  - {fileID: 1442010348}
+  - {fileID: 1393124178}
+  - {fileID: 787895856}
+  - {fileID: 494197719}
+  - {fileID: 645140764}
+  - {fileID: 1284911748}
+  - {fileID: 1146023916}
+  - {fileID: 965756262}
+  - {fileID: 555311658}
+  result_score: {fileID: 1375417718}
   score: 0
   gameEnd: 0
 --- !u!4 &1293516703
