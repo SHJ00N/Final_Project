@@ -15,9 +15,6 @@ public class PlatformManager : MonoBehaviour
     float platform_x_endPos = 14.57f;
     float platform_y_startPos = 0f;
     float platform_y_endPos = -10.2f;
-
-    public int platformDirection = -1;  //발판 이동 방향
-    public float platform_speed = 3f;   //발판 이동 속도
     private void Awake()
     {
         if (Instance == null)   //싱글톤

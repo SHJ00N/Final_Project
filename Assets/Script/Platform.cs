@@ -6,7 +6,6 @@ public class Platform : MonoBehaviour
 {
     public GameObject apple;    //점수 아이템
     public GameObject leaf; //발판 파괴 후 생성되는 오브젝트
-    private int direction;  //이동 방향
 
     private void Awake()
     {
@@ -16,19 +15,15 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction = PlatformManager.Instance.platformDirection; //발판 이동 방향 업데이트
-        if(!GameManager.Instance.gameEnd)
-            transform.Translate(Vector3.right * direction * PlatformManager.Instance.platform_speed * Time.deltaTime);   //발판 이동
-
         //발판 위치 초기화
-        if (direction == -1)    
+        if (GameManager.Instance.direction == 1)    
         {
-            if (transform.position.x <  -10)
+            if (transform.position.x < Camera.main.transform.position.x -10)
                 transform.position = transform.position + new Vector3( 20, 0, 0);
         }
         else
         {
-            if (transform.position.x >10)
+            if (transform.position.x > Camera.main.transform.position.x + 10)
                 transform.position = transform.position + new Vector3(-20, 0, 0);
         }
 

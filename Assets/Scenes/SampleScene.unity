@@ -1843,14 +1843,6 @@ MonoBehaviour:
   - {fileID: 1817874111599549268, guid: 32058329a19b0a145ad82384cebe82bb, type: 3}
   - {fileID: 8914954116923163557, guid: 4319d73aa6158b5448a9eca32c49a315, type: 3}
   - {fileID: 2755496041586740559, guid: e66630896c3e78c48ae709a6069b2bb8, type: 3}
-  background_direction: -1
-  background_speed:
-  - 2
-  - 4
-  - 6
-  - 8
-  - 10
-  currentBackgroundNum: 0
 --- !u!1 &494197717
 GameObject:
   m_ObjectHideFlags: 0
@@ -4878,8 +4870,6 @@ MonoBehaviour:
   - {fileID: 1176228603107058057, guid: f63bc1a148cee5f4cb71ffa394a4453a, type: 3}
   - {fileID: 1176228603107058057, guid: 912013ca61b24f04ba444bdd575cf269, type: 3}
   appleActive: 0
-  platformDirection: -1
-  platform_speed: 5
 --- !u!4 &1109823897
 Transform:
   m_ObjectHideFlags: 0
@@ -5781,6 +5771,7 @@ MonoBehaviour:
   registerButton: {fileID: 187811647}
   score: 0
   gameEnd: 0
+  direction: 1
 --- !u!4 &1293516703
 Transform:
   m_ObjectHideFlags: 0

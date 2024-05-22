@@ -38,13 +38,13 @@ public class Enemy : MonoBehaviour
         //적 위치 초기화
         if(Mathf.Abs(transform.position.x) > Camera.main.transform.position.x + 6f)
         {
-            if (enemy_direction == 1)
+            if (GameManager.Instance.direction == 1)
             {
-                transform.position = new Vector3(Camera.main.transform.position.x - 5.7f, transform.position.y, transform.position.z);
+                transform.position = transform.position + new Vector3(Camera.main.transform.position.x +12f, 0, 0);
             }
             else
             {
-                transform.position = new Vector3(Camera.main.transform.position.x + 5.7f, transform.position.y, transform.position.z);
+                transform.position = transform.position + new Vector3(Camera.main.transform.position.x - 12f, 0, 0);
             }
         }
 

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     public int score = 0;
     public bool gameEnd = false;
+    public int direction = 1;
 
     private Dictionary<string, int> ranking = new Dictionary<string, int>(); // 이름과 점수를 저장할 딕셔너리
     private string filePath;

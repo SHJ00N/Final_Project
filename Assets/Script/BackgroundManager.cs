@@ -12,10 +12,6 @@ public class BackgroundManager : MonoBehaviour
     //배경 생성 위치
     float currentBackground_y;
     float background_yDistance = 25.5f;
-
-    public int background_direction = -1;   //배경 이동 방향
-    public float[] background_speed = {1,3,5,7,9}; //배경별 이동 속도
-    public int currentBackgroundNum = 0;    //현재 생성 될 배경 번호
     private void Awake()
     {
         if (Instance == null)   //싱글톤
@@ -45,9 +41,6 @@ public class BackgroundManager : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     Instantiate(backgrounds[i], new Vector3(x, y, -i), Quaternion.identity);
-                    currentBackgroundNum++;
-                    if(currentBackgroundNum > 4)
-                        currentBackgroundNum = 0;
                 }
 
         currentBackground_y -= background_yDistance;    //배경 생성 위치 이동

@@ -8,7 +8,7 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject[] enemy;  //적 오브젝트
 
     float spawnPos_y = -1.55f;
-    float spawnPos_x = -5f;
+    float spawnPos_x;
     float spawnPos_y_distance = 2.55f;
     float spawnPos_y_end = -9.2f;
 
@@ -18,6 +18,8 @@ public class EnemySpawnManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        spawnPos_x = Camera.main.transform.position.x - 6f;
     }
     // Start is called before the first frame update
     void Start()

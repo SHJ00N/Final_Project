@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private bool isGrounded = false;    //현재 위치 상태
     private bool hitPlatform;   //플랫폼 충돌 상태
     public bool playerHitEnable = true;  //적과의 충돌 상태
+    private float player_speed = 5f;
 
     private float playerHitActive = 1f;
 
@@ -27,6 +28,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.gameEnd)
+            transform.Translate(Vector3.right * GameManager.Instance.direction * player_speed * Time.deltaTime);
         //스페이스 입력 시 발판 파괴
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.Instance.gameEnd)
         {
@@ -71,14 +74,12 @@ public class Player : MonoBehaviour
                 if (transform.localScale.x < 0) //왼쪽
                 {
                     transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    PlatformManager.Instance.platformDirection = -1;
-                    BackgroundManager.Instance.background_direction = -1;
+                    GameManager.Instance.direction = 1;
                 }
                 else   //오른쪽
                 {
                     transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    PlatformManager.Instance.platformDirection = 1;
-                    BackgroundManager.Instance.background_direction = 1;
+                    GameManager.Instance.direction = -1;
                 }
                 //일정 시간 후 적 및 플레이어 충돌 정상화
                 StartCoroutine(enemy.OnEnemyActive()); 
@@ -88,9 +89,6 @@ public class Player : MonoBehaviour
             {
                 //모든 오브젝트 이동 중지
                 enemy.enemy_speed = 0f;
-                PlatformManager.Instance.platform_speed = 0f;
-                for (int i = 0; i < 5; i++)
-                BackgroundManager.Instance.background_speed[i] = 0f;
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"));
                 _animator.SetTrigger("Die");
                 GameManager.Instance.gameEnd = true;
