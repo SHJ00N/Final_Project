@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, int> ranking = new Dictionary<string, int>(); // 이름과 점수를 저장할 딕셔너리
     private string filePath;
 
+    private bool isRigister = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
         {
             UpdateRanking();
             result_score.text = string.Format("{0:N0}", score);
-            if (IsRank())
+            if (IsRank() && !isRigister)
             {
                 registerButtonObj.SetActive(true);
             }
@@ -115,7 +117,9 @@ public class GameManager : MonoBehaviour
 
     public void RegisterRanking()
     {
+        isRigister = true;
         playerInputFieldObj.SetActive(false);
+        registerButtonObj.SetActive(false);
         string playerName = nameInputField.text;
 
         if (!string.IsNullOrEmpty(playerName))
@@ -123,11 +127,11 @@ public class GameManager : MonoBehaviour
             // 새로운 플레이어 점수를 랭킹에 추가
             ranking[playerName] = score;
 
-            // 랭킹 파일에 저장
-            SaveScores();
-
             // 랭킹 업데이트
             UpdateRanking();
+
+            // 랭킹 파일에 저장
+            SaveScores();
         }
     }
 

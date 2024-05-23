@@ -37,6 +37,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
+        spawnPos_x = Camera.main.transform.position.x - 6f;
         int randomValue = Random.Range(0, 2);
         if (randomValue == 1)
         {

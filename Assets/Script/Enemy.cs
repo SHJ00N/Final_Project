@@ -36,17 +36,16 @@ public class Enemy : MonoBehaviour
         if(!GameManager.Instance.gameEnd)
             transform.Translate(Vector3.right * enemy_direction * enemy_speed *Time.deltaTime); //적 이동
         //적 위치 초기화
-        if(Mathf.Abs(transform.position.x) > Camera.main.transform.position.x + 6f)
-        {
             if (GameManager.Instance.direction == 1)
             {
-                transform.position = transform.position + new Vector3(Camera.main.transform.position.x +12f, 0, 0);
+                if(transform.position.x < Camera.main.transform.position.x - 6f)
+                    transform.position = new Vector3(Camera.main.transform.position.x + 5.5f, transform.position.y, transform.position.z);
             }
             else
             {
-                transform.position = transform.position + new Vector3(Camera.main.transform.position.x - 12f, 0, 0);
+                if (transform.position.x > Camera.main.transform.position.x + 6f)
+                    transform.position = new Vector3(Camera.main.transform.position.x - 5.5f, transform.position.y, transform.position.z);
             }
-        }
 
         // 적 Fall 상태 체크
         if (isGrounded) CheckIsGrounded();

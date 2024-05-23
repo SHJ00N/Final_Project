@@ -89,7 +89,6 @@ public class Player : MonoBehaviour
             {
                 //모든 오브젝트 이동 중지
                 enemy.enemy_speed = 0f;
-                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"));
                 _animator.SetTrigger("Die");
                 GameManager.Instance.gameEnd = true;
             }

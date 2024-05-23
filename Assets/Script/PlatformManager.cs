@@ -11,8 +11,7 @@ public class PlatformManager : MonoBehaviour
     //발판 생성 위치 정보
     float platform_x_distance = 0.85f;
     float platform_y_distance = 2.55f;
-    float platform_x_startPos = -5f;
-    float platform_x_endPos = 14.57f;
+    float platform_x_startPos;
     float platform_y_startPos = 0f;
     float platform_y_endPos = -10.2f;
     private void Awake()
@@ -24,13 +23,14 @@ public class PlatformManager : MonoBehaviour
     }
     void Start()
     {
+        platform_x_startPos = Camera.main.transform.position.x - 5f;
         InitPlatform(); //게임 시작 시 발판 생성
     }
     private void InitPlatform() //초기 발판 생성 함수
     {
         for(float y = platform_y_startPos; y >= platform_y_endPos; y-= platform_y_distance)
         {
-            for(float x = platform_x_startPos; x <= platform_x_endPos; x += platform_x_distance)
+            for(float x = platform_x_startPos; x <= platform_x_startPos + platform_x_distance*24; x += platform_x_distance)
             {
                 //점수 아이템 랜덤 활성화
                 int appleProbability = Random.Range(0, 100);
@@ -47,9 +47,10 @@ public class PlatformManager : MonoBehaviour
     }
     public void MakePlatform()  //발판 추가 함수
     {
+        platform_x_startPos = Camera.main.transform.position.x - 5f;
         // 발판 생성 y위치 이동 후 생성
         platform_y_endPos -= platform_y_distance;
-        for (float x = platform_x_startPos; x <= platform_x_endPos; x += platform_x_distance)
+        for (float x = platform_x_startPos; x <= platform_x_startPos + platform_x_distance * 24; x += platform_x_distance)
         {
             //점수 아이템 랜덤 활성화
             int appleProbability = Random.Range(0, 100);
