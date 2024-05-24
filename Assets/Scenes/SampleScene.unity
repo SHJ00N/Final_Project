@@ -5744,6 +5744,17 @@ MonoBehaviour:
   registerButtonObj: {fileID: 1371575601}
   playerInputFieldObj: {fileID: 1082139434}
   scoreText: {fileID: 1454213707}
+  playerRank:
+  - {fileID: 1022030140}
+  - {fileID: 232323278}
+  - {fileID: 2128730482}
+  - {fileID: 927353795}
+  - {fileID: 1490889688}
+  - {fileID: 99533958}
+  - {fileID: 855597605}
+  - {fileID: 801638293}
+  - {fileID: 1390535168}
+  - {fileID: 404088432}
   rank_name:
   - {fileID: 379886920}
   - {fileID: 666716915}
