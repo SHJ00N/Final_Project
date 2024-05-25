@@ -4615,7 +4615,7 @@ MonoBehaviour:
   gameEndSet: {fileID: 1043307598}
   scoreText: {fileID: 1454213707}
   result_score: {fileID: 1375417718}
-  comboText: {fileID: 0}
+  comboText: {fileID: 1275726923}
   score: 0
   gameEnd: 0
   direction: 1
