@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     public GameObject gameEndSet;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI result_score;
+    public TextMeshProUGUI comboText;
 
     public int score = 0;
     public bool gameEnd = false;
     public int direction = 1;
+    public int combo = 0;
 
     private bool gameEndWindowActive = false;
 
@@ -27,8 +29,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        scoreText.text = string.Format("{0:N0}", score);
+        scoreText.text = string.Format("{0:N0}", score);    //점수
+        comboText.text = string.Format("{0}", combo);   //콤보
 
+        //게임 결과 창
         if (gameEnd)
         {
             result_score.text = string.Format("{0:N0}", score);

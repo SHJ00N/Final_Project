@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,6 +17,9 @@ public class Player : MonoBehaviour
     private bool hitPlatform;   //플랫폼 충돌 상태
     public bool playerHitEnable = true;  //적과의 충돌 상태
     private float player_speed = 5f;
+    private float preComboCountTime;
+    private float ComboTime = 2f;   //콤보 유지 시간
+    private int score = 500;    //획득하는 점수
 
     private float playerHitActive = 1f;
 
@@ -24,6 +28,7 @@ public class Player : MonoBehaviour
         _collider2D = GetComponent<Collider2D>();
         _rigid = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        preComboCountTime = -ComboTime; //초기 이전 콤보 시작 시간
     }
 
     void Update()
@@ -33,14 +38,25 @@ public class Player : MonoBehaviour
         //스페이스 입력 시 발판 파괴
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.Instance.gameEnd)
         {
+            float currnetComboCountTime = Time.time;
             isGrounded = false;
             hitPlatform = false;
-            GameManager.Instance.score += 500;
+
             _animator.SetInteger("Fall", 1);
             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Platform"), true) ;  //발판과의 충돌 비활성화
             Instantiate(breaker, breakPos.position,Quaternion.Euler(0,0,90));
+
             PlatformManager.Instance.MakePlatform();    //메인 카메라 밑에 예비 발판 추가 생성
             EnemySpawnManager.Instance.SpawnEnemy(); //적 스폰
+
+            //점수 및 콤보 증가
+            if (currnetComboCountTime - preComboCountTime <= ComboTime)     // 콤보 유지 시간 안에 스페이스바 입력 시 콤보 증가
+            {
+                if (GameManager.Instance.combo < 99) GameManager.Instance.combo++;  //최대 콤보 99로 제한
+            }
+            else GameManager.Instance.combo = 1;
+            preComboCountTime = currnetComboCountTime;  //이전 콤보 시작 시간 변경
+            GameManager.Instance.score = GameManager.Instance.score + score + (score * GameManager.Instance.combo * 1 / 10);    //콤보에 따른 추가 점수 반영
         }
         if(!isGrounded) //떨어지는 상태일 때
         {
