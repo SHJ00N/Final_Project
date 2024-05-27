@@ -21,7 +21,7 @@ public class RankingManager : MonoBehaviour
     public Button registerButton;   //랭킹 등록 버튼(게임 결과창)
 
     private Dictionary<string, int> ranking = new Dictionary<string, int>(); // 이름과 점수를 저장할 딕셔너리
-    private string filePath;    //랭킹 파일 경로
+    private string filePath;    //최고점수 파일 경로
     private bool isRigister = false;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class RankingManager : MonoBehaviour
         if(Instance == null)    Instance = this;
         else   Destroy(gameObject);
 
-        filePath = Path.Combine(Application.dataPath, "Resources/ranking.txt"); //랭킹 파일 경로 지정
+        filePath = Path.Combine(Application.dataPath, "Resources/ranking.txt"); //최고점수 파일 경로 지정
         nameInputField.characterLimit = 3;  //이름 제한 길이
         LoadScores();   //점수 로드
     }
