@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class BgScroll : MonoBehaviour
 {
-    [SerializeField] int direction, speed;
-    private void Start()
-    {
-        if (GameManager.Instance != null)
-        {
-            direction = GameManager.Instance.direction;
-            speed = 0;
-        }
-        else direction = 1;
-    }
     // Update is called once per frame
     void Update()
-    {
-        transform.Translate(Vector3.left*speed*direction*Time.deltaTime);
+    { 
         //배경 위치 초기화
-        if (direction == 1)
+        if (GameManager.Instance.direction == 1)
         {
             if (transform.position.x <  Camera.main.transform.position.x - 24)
                 transform.position = transform.position + new Vector3(+48, 0, 0);
