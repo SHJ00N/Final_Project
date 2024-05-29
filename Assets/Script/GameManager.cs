@@ -18,9 +18,10 @@ public class GameManager : MonoBehaviour
     public bool gameEnd = false;
     public int direction = 1;
     public int combo = 0;
+    public bool isGameStart = false;
 
     private bool gameEndWindowActive = false;
-
+    private bool isPaused = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -31,7 +32,14 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = string.Format("{0:N0}", score);    //점수
         comboText.text = string.Format("{0}", combo);   //콤보
-
+        if (!gameEnd)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)&& isGameStart)
+            {
+                Time.timeScale = (!isPaused)? 0f : 1f;
+                isPaused = !isPaused;
+            }
+        }
         //게임 결과 창
         if (gameEnd)
         {

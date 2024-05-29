@@ -32,6 +32,7 @@ public class StartCount : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
         startSet.SetActive(false);
+        GameManager.Instance.isGameStart = true;
         Time.timeScale = 1;
     }
 }
