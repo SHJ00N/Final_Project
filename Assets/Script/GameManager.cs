@@ -46,9 +46,4 @@ public class GameManager : MonoBehaviour
         gameEndWindowActive = true;
         gameEndSet.SetActive(true);
     }
-    
-    public void ReStart()
-    {
-        SceneManager.LoadScene(0);
-    }
 }
