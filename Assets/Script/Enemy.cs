@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Collider2D _collider2D;
+    private Collider2D playerCollider2D;
     private Rigidbody2D _rigidbody2D;
+    private Animator _animator;
 
     private int enemy_direction;    //적 이동 방향
     public float enemy_speed;  //적 이동 속도
@@ -21,17 +24,25 @@ public class Enemy : MonoBehaviour
     private bool isGrounded = false;
     private bool isFalling;
     public bool enemyHitEnable = true;
+    public bool enemyHitPlayer = true;
+    private int countHitPlatform = 0;
+    private bool isDie = false;
 
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _collider2D = GetComponent<Collider2D>();
-        enemy_speed = Random.Range(0.1f, 2f); //적 이동 속도 랜덤값 할당
-        enemy_direction = Random.Range(0, 2) * 2 - 1;   //1:오른쪽, -1:왼쪽
+        _animator = GetComponent<Animator>();
+        playerCollider2D = GameObject.Find("Player").GetComponent<Collider2D>();
+        enemy_speed = UnityEngine.Random.Range(0.1f, 2f); //적 이동 속도 랜덤값 할당
+        enemy_direction = UnityEngine.Random.Range(0, 2) * 2 - 1;   //1:오른쪽, -1:왼쪽
     }
     void Update()
     {
-        if ((transform.position.y > Camera.main.transform.position.y + 10f))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                Destroy(gameObject);
+        if ((transform.position.y > Camera.main.transform.position.y + 10f) || (transform.position.y < Camera.main.transform.position.y - 12f))
             Destroy(gameObject);
         if(!GameManager.Instance.gameEnd)
             transform.Translate(Vector3.right * enemy_direction * enemy_speed *Time.deltaTime); //적 이동
@@ -89,6 +100,7 @@ public class Enemy : MonoBehaviour
         if (transform.localScale.x < 0)  
             transform.localScale = new Vector3(-1 * transform.localScale.x, -1 * transform.localScale.y, transform.localScale.z);
         rayPos_y = 0.45f;
+        Physics2D.IgnoreCollision(_collider2D, playerCollider2D, false);
         enemyHitEnable = true;  //충돌 켜기
     }
 
@@ -97,6 +109,7 @@ public class Enemy : MonoBehaviour
         enemyHitEnable = false;
         preEnemy_speed = enemy_speed;   //현재 속도 저장
         enemy_speed = 0f;   //움직임 정지
+        Physics2D.IgnoreCollision(_collider2D, playerCollider2D);
         //오브젝트 방향 뒤집기
         if (transform.localScale.x > 0)
             transform.localScale = new Vector3(-1 * transform.localScale.x, -1 * transform.localScale.y, transform.localScale.z);
@@ -104,11 +117,27 @@ public class Enemy : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Platform"))
+        if (collision.collider.CompareTag("Platform") && !isDie && !isGrounded)
         {
-            //착지
-            isGrounded = true;
+            Debug.Log("적 플랫폼 충돌!");
+             if (enemyHitPlayer)
+             {
+                 isGrounded = true;
+             }
+             else
+              {
+                 if (countHitPlatform > 2)
+                 {
+                    _collider2D.enabled = false;
+                    _rigidbody2D.simulated = false;
+                    _animator.SetTrigger("Die");
+                    isDie = true;
+                 }
+                 countHitPlatform++;
+                 Destroy(collision.gameObject);
+             }
         }
+
 
         if (collision.collider.CompareTag("Enemy") && enemyHitEnable) //적과 적 충돌
         {
@@ -119,6 +148,5 @@ public class Enemy : MonoBehaviour
             //일정 시간 후 정상화
             StartCoroutine(OnEnemyActive());
         }
-    }
-    
+    }   
 }

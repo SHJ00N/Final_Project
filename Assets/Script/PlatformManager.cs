@@ -10,7 +10,7 @@ public class PlatformManager : MonoBehaviour
     public bool appleActive;
     //발판 생성 위치 정보
     float platform_x_distance = 0.85f;
-    float platform_y_distance = 2.55f;
+    public float platform_y_distance = 2.55f;
     float platform_x_startPos;
     float platform_y_startPos = 0f;
     float platform_y_endPos = -10.2f;

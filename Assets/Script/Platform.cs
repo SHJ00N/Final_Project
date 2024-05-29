@@ -43,5 +43,19 @@ public class Platform : MonoBehaviour
             Instantiate(leaf, transform.position, Quaternion.identity);
             Instantiate(leaf, transform.position, Quaternion.identity);
         }
+
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (!enemy.enemyHitPlayer)
+            {
+                Destroy(gameObject);   //발판 오브젝트 파괴
+
+                //잔여물 생성
+                Instantiate(leaf, transform.position, Quaternion.identity);
+                Instantiate(leaf, transform.position, Quaternion.identity);
+                Instantiate(leaf, transform.position, Quaternion.identity);
+            }
+        }
     }
 }
