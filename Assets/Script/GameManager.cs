@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public GameObject gameEndSet;
+    public GameObject pauseSet;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI result_score;
     public TextMeshProUGUI comboText;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape)&& isGameStart)
             {
                 Time.timeScale = (!isPaused)? 0f : 1f;
+                pauseSet.SetActive((!isPaused)? true : false);
                 isPaused = !isPaused;
             }
         }
@@ -53,5 +55,12 @@ public class GameManager : MonoBehaviour
     {
         gameEndWindowActive = true;
         gameEndSet.SetActive(true);
+    }
+
+    public void ButtonDownContinue()
+    {
+        Time.timeScale = 1f;
+        pauseSet.SetActive(false);
+        isPaused = false;
     }
 }
