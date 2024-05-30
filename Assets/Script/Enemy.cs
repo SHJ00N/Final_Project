@@ -96,7 +96,8 @@ public class Enemy : MonoBehaviour
         rayPos_y = 0.45f;
         //collider 활성화
         Physics2D.IgnoreCollision(_collider2D, playerCollider2D, false);
-        Physics2D.IgnoreCollision(_collider2D, collisionCollider, false);
+        if(collisionCollider != null)
+            Physics2D.IgnoreCollision(_collider2D, collisionCollider, false);
         enemyHitEnable = true;  //충돌 켜기
     }
 

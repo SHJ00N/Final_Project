@@ -125,7 +125,7 @@ public class Player : MonoBehaviour
                     GameManager.Instance.direction = -1;
                 }
 
-                Invoke("OnPlayerHit2Enemy", 3f);    //일정 시간 후 무적 상태 종료
+                Invoke("OnPlayerHit2Enemy", 2f);    //일정 시간 후 무적 상태 종료
             }
             else if(enemy.enemyHitEnable)
             {
