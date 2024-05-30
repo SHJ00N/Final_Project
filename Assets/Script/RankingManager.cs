@@ -87,9 +87,9 @@ public class RankingManager : MonoBehaviour
             //플레이어 랭킹 강조
             if (entry.Key == nameInputField.text && isRigister)
             {
-                playerRank[rank].color = Color.yellow;
-                rank_name[rank].color = Color.yellow;
-                rank_score[rank].color = Color.yellow;
+                playerRank[rank].color = new Color(0.9f, 0.9f, 0.4f);
+                rank_name[rank].color = new Color(0.9f, 0.9f, 0.4f);
+                rank_score[rank].color = new Color(0.9f, 0.9f, 0.4f);
             }
             else
             {

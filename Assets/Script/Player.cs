@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !GameManager.Instance.gameEnd)
         {
             float currnetComboCountTime = Time.time;
-            Instantiate(breaker, breakPos.position,Quaternion.Euler(0,0,90));
+            Instantiate(breaker, breakPos.position,Quaternion.identity);
 
             //점수 및 콤보 증가
             if (currnetComboCountTime - preComboCountTime <= ComboTime)     // 콤보 유지 시간 안에 스페이스바 입력 시 콤보 증가
