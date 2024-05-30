@@ -19,33 +19,39 @@ public class Enemy : MonoBehaviour
 
     public float enemyHeight = 0.1f;    //적 탑
     public float enemyWidth = 0.45f;    //적 폭 및 바텀
-    public float rayPos_y = 0.45f;
+    public float rayPos_y = 0.45f;  //적 위치 기준 ray의 y 위치
 
     private bool isGrounded = false;
     private bool isFalling;
-    public bool enemyHitEnable = true;
-    public bool enemyHitPlayer = true;
-    private int countHitPlatform = 0;
-    private bool isDie = false;
+    public bool enemyHitEnable = true;  //적 충돌 가능 여부
+    public bool enemyHitPlayer = true;  //적 과 플레이어 충돌 가능 여부
+    private int countHitPlatform = 0;   //적 과 플레이어 충돌 후 플랫폼과 충돌한 횟수
+    private bool isDie = false; //사망 여부
 
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _collider2D = GetComponent<Collider2D>();
         _animator = GetComponent<Animator>();
-        playerCollider2D = GameObject.Find("Player").GetComponent<Collider2D>();
+        playerCollider2D = GameObject.Find("Player").GetComponent<Collider2D>();    //플레이어의 collider
         enemy_speed = UnityEngine.Random.Range(0.1f, 2f); //적 이동 속도 랜덤값 할당
         enemy_direction = UnityEngine.Random.Range(0, 2) * 2 - 1;   //1:오른쪽, -1:왼쪽
     }
     void Update()
     {
+        CheckIsGrounded();  //fall 상태 확인
+        
+        //사망 애니메이션이 끝나면 오브젝트 파괴
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 Destroy(gameObject);
+        //메인 카메라 밖으로 나가면 파괴
         if ((transform.position.y > Camera.main.transform.position.y + 10f) || (transform.position.y < Camera.main.transform.position.y - 12f))
             Destroy(gameObject);
+
         if(!GameManager.Instance.gameEnd)
             transform.Translate(Vector3.right * enemy_direction * enemy_speed *Time.deltaTime); //적 이동
+
         //적 위치 초기화
             if (GameManager.Instance.direction == 1)
             {
@@ -57,10 +63,6 @@ public class Enemy : MonoBehaviour
                 if (transform.position.x > Camera.main.transform.position.x + 6f)
                     transform.position = new Vector3(Camera.main.transform.position.x - 5.5f, transform.position.y, transform.position.z);
             }
-
-        // 적 Fall 상태 체크
-        if (isGrounded) CheckIsGrounded();
-        else OnCollPlatform();
     }
 
     private void CheckIsGrounded()  //적이 Fall 상태 확인 함수
@@ -73,26 +75,18 @@ public class Enemy : MonoBehaviour
             Debug.Log("적 충돌 오프");
             isGrounded = false;
             isFalling = true;
-            _collider2D.enabled = false;
-        }
-    }
-    private void OnCollPlatform()   //착지 시 플랫폼 충돌 활성화 함수
-    {
-        //착지 확인을 위한 Ray
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - rayPos_y), Vector2.down, new Color(1, 0, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - rayPos_y), Vector2.down, 1f, LayerMask.GetMask("Platform"));  //충돌체 확인
-        if (rayHit.collider != null) // 발 밑에 충돌체가 있으면
+            gameObject.layer = LayerMask.NameToLayer("FallingEnemy");   //레이어 마스크 변경
+        } else
         {
-            if (Mathf.Abs((transform.position.y - rayPos_y) - rayHit.transform.position.y) < 0.1f && isFalling) //발 밑에 플랫폼이 있고 Fall상태
+            if (Mathf.Abs((transform.position.y - rayPos_y) - rayHit.transform.position.y) < 0.5f && isFalling) //발 밑에 플랫폼이 있고 Fall상태
             {
                 Debug.Log("적 충돌 온");
                 isFalling = false;
-                _collider2D.enabled = true;
+                gameObject.layer = LayerMask.NameToLayer("Enemy");  //레이어 마스크 원상 복구
             }
         }
     }
-
-    public IEnumerator OnEnemyActive() //적 활동 활성화
+    public IEnumerator OnEnemyActive(Collider2D collisionCollider) //적 활동 활성화
     {
         yield return new WaitForSeconds(enemyActiveTime);
         enemy_speed = preEnemy_speed;   //이전 속도 재할당
@@ -100,7 +94,9 @@ public class Enemy : MonoBehaviour
         if (transform.localScale.x < 0)  
             transform.localScale = new Vector3(-1 * transform.localScale.x, -1 * transform.localScale.y, transform.localScale.z);
         rayPos_y = 0.45f;
+        //collider 활성화
         Physics2D.IgnoreCollision(_collider2D, playerCollider2D, false);
+        Physics2D.IgnoreCollision(_collider2D, collisionCollider, false);
         enemyHitEnable = true;  //충돌 켜기
     }
 
@@ -124,17 +120,19 @@ public class Enemy : MonoBehaviour
              {
                  isGrounded = true;
              }
-             else
+             else //플레이어가 fall 상태 일 때 충돌
               {
+                //플랫폼과 3번 이상 충돌하면 파괴
                  if (countHitPlatform > 2)
                  {
+                    //충돌 비활성화
                     _collider2D.enabled = false;
                     _rigidbody2D.simulated = false;
-                    _animator.SetTrigger("Die");
+                    _animator.SetTrigger("Die");    //사망 애니메이션 연출
                     isDie = true;
                  }
                  countHitPlatform++;
-                 Destroy(collision.gameObject);
+                 Destroy(collision.gameObject); //플랫폼 파괴
              }
         }
 
@@ -143,10 +141,11 @@ public class Enemy : MonoBehaviour
         {
             OffEnemyActive();   //활동 비활성화
             //일정 거리 날라감
-            Vector2 moveDir = new Vector2((transform.position.x - collision.transform.position.x) * 3f, 0f);
+            Vector2 moveDir = new Vector2((transform.position.x - collision.transform.position.x) * 2f, 0f);
+            Physics2D.IgnoreCollision(_collider2D, collision.collider);
             _rigidbody2D.AddForce(moveDir * 3f, ForceMode2D.Impulse);
             //일정 시간 후 정상화
-            StartCoroutine(OnEnemyActive());
+            StartCoroutine(OnEnemyActive(collision.collider));
         }
     }   
 }

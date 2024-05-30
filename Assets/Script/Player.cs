@@ -54,11 +54,12 @@ public class Player : MonoBehaviour
         }
         if(!isGrounded) //떨어지는 상태일 때
         {
+            //플레이어의 y좌표가 일정 이상 내려가면 적 과 플랫폼 생성
             if(Mathf.Abs(prePlayerPosition_y - transform.position.y) > PlatformManager.Instance.platform_y_distance)
             {
                 PlatformManager.Instance.MakePlatform();
                 EnemySpawnManager.Instance.SpawnEnemy();
-                prePlayerPosition_y = transform.position.y;
+                prePlayerPosition_y = transform.position.y; //이전 위치 업데이트
             }
         }
     }
@@ -108,8 +109,10 @@ public class Player : MonoBehaviour
 
                 //플레이어
                 _rigid.AddForce(Vector2.up * 50f, ForceMode2D.Force);  //일정거리 점프
+                //플레이어 와 적 충돌 마스크 비활성화
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"));
-                shield.SetActive(true);
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("FallingEnemy"));
+                shield.SetActive(true); //무적 이펙트 활성화
                 //방향 변경
                 if (transform.localScale.x < 0) //왼쪽
                 {
@@ -122,14 +125,13 @@ public class Player : MonoBehaviour
                     GameManager.Instance.direction = -1;
                 }
 
-                Invoke("OnPlayerHit2Enemy", 3f);
+                Invoke("OnPlayerHit2Enemy", 3f);    //일정 시간 후 무적 상태 종료
             }
             else if(enemy.enemyHitEnable)
             {
-                //모든 오브젝트 이동 중지
-                enemy.enemy_speed = 0f;
-                _animator.SetTrigger("Die");
-                GameManager.Instance.gameEnd = true;
+                enemy.enemy_speed = 0f; //적 이동 중지
+                _animator.SetTrigger("Die");    //사망 애니메이션 연출
+                GameManager.Instance.gameEnd = true;    //게임 끝
             }
             playerHitEnable = true;
         }
@@ -137,7 +139,10 @@ public class Player : MonoBehaviour
 
     private void OnPlayerHit2Enemy()
     {
+        //무적 이펙트 비활성화
         shield.SetActive(false);
+        //플레이어 와 적 충돌 마스크 활성화
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"),false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("FallingEnemy"),false);
     }
 }
