@@ -51,6 +51,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //ÄÞº¸ È¿°ú
+    public IEnumerator ComboEffect()
+    {
+        for (float i = 1.5f; i > 1; i -= 0.1f)
+        {
+            yield return new WaitForSeconds(0.025f);
+            comboText.rectTransform.localScale = new Vector2(i, i*1.5f);
+        }
+    }
+
     private void gameEndActive()
     {
         gameEndWindowActive = true;

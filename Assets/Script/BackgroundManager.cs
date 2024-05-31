@@ -11,7 +11,9 @@ public class BackgroundManager : MonoBehaviour
 
     //배경 생성 위치
     float currentBackground_y;
+    float background_startPos_x;
     float background_yDistance = 25.5f;
+    float background_xDistance = 24f;
     private void Awake()
     {
         if (Instance == null)   //싱글톤
@@ -22,6 +24,7 @@ public class BackgroundManager : MonoBehaviour
     void Start()
     {
         //현재 카메라 위치를 기준으로 배경 생성
+        background_startPos_x = Camera.main.transform.position.x;
         currentBackground_y = Camera.main.transform.position.y+1f;  
         Init_background();
     }
@@ -37,7 +40,7 @@ public class BackgroundManager : MonoBehaviour
     {
         //4장의 배경 생성
         for (float y = currentBackground_y; y >= -background_yDistance; y -= background_yDistance)
-            for (float x = 0; x <= 24; x += 24)
+            for (float x = background_startPos_x; x <= background_startPos_x + background_xDistance + 1f; x += background_xDistance)
                 for (int i = 0; i < 5; i++)
                 {
                     Instantiate(backgrounds[i], new Vector3(x, y, -i), Quaternion.identity);
@@ -47,9 +50,10 @@ public class BackgroundManager : MonoBehaviour
     }
     public void Make_background()   // 배경 추가 생성 함수
     {
+        background_startPos_x = Camera.main.transform.position.x;
         //배경 생성 y위치 이동 후 2장 생성
         currentBackground_y -= background_yDistance;
-        for (float x = 0; x <= 24; x += 24)
+        for (float x = background_startPos_x; x <= background_startPos_x + background_xDistance + 1f; x += background_xDistance)
             for (int i = 0; i < 5; i++)
                 Instantiate(backgrounds[i], new Vector3(x, currentBackground_y, -i), Quaternion.identity);
     }

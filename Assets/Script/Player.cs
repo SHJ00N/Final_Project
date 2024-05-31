@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
             if (currnetComboCountTime - preComboCountTime <= ComboTime)     // 콤보 유지 시간 안에 스페이스바 입력 시 콤보 증가
             {
                 if (GameManager.Instance.combo < 99) GameManager.Instance.combo++;  //최대 콤보 99로 제한
+                StartCoroutine(GameManager.Instance.ComboEffect()); //콤보 효과 연출
             }
             else GameManager.Instance.combo = 1;
             preComboCountTime = currnetComboCountTime;  //이전 콤보 시작 시간 변경
