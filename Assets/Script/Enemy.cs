@@ -34,7 +34,24 @@ public class Enemy : MonoBehaviour
         _collider2D = GetComponent<Collider2D>();
         _animator = GetComponent<Animator>();
         playerCollider2D = GameObject.Find("Player").GetComponent<Collider2D>();    //플레이어의 collider
-        enemy_speed = UnityEngine.Random.Range(0.1f, 2f); //적 이동 속도 랜덤값 할당
+        switch (GameManager.Instance.score / 50000) {
+            //적 이동 속도 랜덤값 할당
+            case 0:
+                enemy_speed = UnityEngine.Random.Range(0.1f, 1f);
+                break;
+            case 1:
+                enemy_speed = UnityEngine.Random.Range(1f, 1.5f);
+                break;
+            case 2:
+                enemy_speed = UnityEngine.Random.Range(1.5f, 2f);
+                break;
+            case 3:
+                enemy_speed = UnityEngine.Random.Range(2f, 2.5f);
+                break;
+            default:
+                enemy_speed = 2.5f;
+                break;
+        }
         enemy_direction = UnityEngine.Random.Range(0, 2) * 2 - 1;   //1:오른쪽, -1:왼쪽
     }
     void Update()
