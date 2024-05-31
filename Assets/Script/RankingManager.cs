@@ -125,14 +125,15 @@ public class RankingManager : MonoBehaviour
 
     public void RegisterRanking()
     {
+        string playerName = nameInputField.text.ToUpper();
         //이름이 중복이 아니면 등록
-        if (!ranking.ContainsKey(nameInputField.text) && nameInputField.text != "Duplicate" && !string.IsNullOrEmpty(nameInputField.text))
+        if (!ranking.ContainsKey(playerName) && nameInputField.text != "Duplicate" && !string.IsNullOrEmpty(playerName))
         {
             isRigister = true;
             playerInputFieldObj.SetActive(false);
             registerButtonObj.SetActive(false);
 
-            string playerName = nameInputField.text;
+
             // 새로운 플레이어 점수를 랭킹에 추가
             ranking[playerName] = GameManager.Instance.score;
 
