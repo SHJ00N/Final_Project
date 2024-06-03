@@ -158,6 +158,7 @@ public class Enemy : MonoBehaviour
         if (collision.collider.CompareTag("Enemy") && enemyHitEnable) //적과 적 충돌
         {
             OffEnemyActive();   //활동 비활성화
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Hit);
             //일정 거리 날라감
             Vector2 moveDir = new Vector2((transform.position.x - collision.transform.position.x) * 2f, 0f);
             Physics2D.IgnoreCollision(_collider2D, collision.collider);

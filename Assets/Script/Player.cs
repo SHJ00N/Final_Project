@@ -102,6 +102,8 @@ public class Player : MonoBehaviour
             //if (transform.position.y - playerHeight >= collision.transform.position.y + enemy.enemyHeight)  //플레이어가 적을 밟았을 때
             if (!hitPlatform)
             {
+                AudioManager.Instance.PlaySfx(AudioManager.Sfx.Step);
+                
                 enemy.OffEnemyActive(); //적 뒤집고 활동 끄기
                 enemy.enemyHitPlayer = false;
                 //적을 일정거리 날림

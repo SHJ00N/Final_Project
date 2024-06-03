@@ -33,6 +33,7 @@ public class StartCount : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         startSet.SetActive(false);
         GameManager.Instance.isGameStart = true;
+        AudioManager.Instance.PlayBgm(true);
         Time.timeScale = 1;
     }
 }

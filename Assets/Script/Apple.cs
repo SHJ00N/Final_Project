@@ -10,6 +10,7 @@ public class Apple : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !hitPlayer)       //플레이어와 충돌
         {
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Item);
             hitPlayer = true;
             Destroy(gameObject);    //오브젝트 파괴
             GameManager.Instance.score += 1000; //점수 증가

@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
         //게임 결과 창
         if (gameEnd)
         {
+            AudioManager.Instance.PlayBgm(false);
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.End);
+
             result_score.text = string.Format("{0:N0}", score);
             if(!gameEndWindowActive)
                 Invoke("gameEndActive", 2f);
