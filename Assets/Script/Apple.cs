@@ -16,5 +16,8 @@ public class Apple : MonoBehaviour
             GameManager.Instance.score += 1000; //점수 증가
             hitPlayer = false;
         }
+
+        if(collision.CompareTag("Enemy") || collision.CompareTag("FallingEnemy"))
+            Destroy(gameObject);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -52,16 +51,15 @@ public class Player : MonoBehaviour
             else GameManager.Instance.combo = 1;
             preComboCountTime = currnetComboCountTime;  //이전 콤보 시작 시간 변경
             GameManager.Instance.score = GameManager.Instance.score + score + (score * GameManager.Instance.combo * 1 / 10);    //콤보에 따른 추가 점수 반영
+
+            AudioManager.Instance.PlaySfx(AudioManager.Sfx.Pierce);
         }
-        if(!isGrounded) //떨어지는 상태일 때
+        //플레이어의 y좌표가 일정 이상 내려가면 적 과 플랫폼 생성
+        if(Mathf.Abs(prePlayerPosition_y - transform.position.y) > PlatformManager.Instance.platform_y_distance)
         {
-            //플레이어의 y좌표가 일정 이상 내려가면 적 과 플랫폼 생성
-            if(Mathf.Abs(prePlayerPosition_y - transform.position.y) > PlatformManager.Instance.platform_y_distance)
-            {
-                PlatformManager.Instance.MakePlatform();
-                EnemySpawnManager.Instance.SpawnEnemy();
-                prePlayerPosition_y = transform.position.y; //이전 위치 업데이트
-            }
+            PlatformManager.Instance.MakePlatform();
+            EnemySpawnManager.Instance.SpawnEnemy();
+            prePlayerPosition_y = transform.position.y; //이전 위치 업데이트
         }
     }
     private void CheckIsGrounded()
@@ -135,6 +133,8 @@ public class Player : MonoBehaviour
                 enemy.enemy_speed = 0f; //적 이동 중지
                 _animator.SetTrigger("Die");    //사망 애니메이션 연출
                 GameManager.Instance.gameEnd = true;    //게임 끝
+                AudioManager.Instance.PlayBgm(false);
+                AudioManager.Instance.PlaySfx(AudioManager.Sfx.End);
             }
             playerHitEnable = true;
         }

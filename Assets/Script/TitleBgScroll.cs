@@ -6,6 +6,10 @@ public class TitleBgScroll : MonoBehaviour
 {
     [SerializeField] float speed;
     // Update is called once per frame
+    private void Start()
+    {
+        Time.timeScale = 1f;
+    }
     void Update()
     {
         transform.Translate(Vector3.left * speed * Time.deltaTime);

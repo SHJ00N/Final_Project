@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadGameScene()
     {
         //게임 시작
-        StartCoroutine(LoadSceneAsync(0));
+        StartCoroutine(LoadSceneAsync(1));
     }
 
     public void QuitGame()
@@ -23,13 +23,13 @@ public class SceneLoader : MonoBehaviour
     public void GameRetry()    
     {
         //게임 재시작
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void LoadTitleScene()
     {
         //메인 매뉴
-        StartCoroutine(LoadSceneAsync(1));
+        StartCoroutine(LoadSceneAsync(0));
     }
 
     IEnumerator LoadSceneAsync(int sceneIndex)      //해당하는 씬 인덱스를 받아서 비동기 처리

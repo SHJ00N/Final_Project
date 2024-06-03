@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     AudioSource[] sfxPlayers;
     int channelIndex;
 
-    public enum Sfx { Hit, End, Step, Item }
+    public enum Sfx { Hit, End, Step, Item, Pierce, Click }
 
     private void Awake()
     {
@@ -56,6 +56,12 @@ public class AudioManager : MonoBehaviour
         else bgmPlayer.Stop();
     }
 
+    public void PauseBgm(bool isPlay)
+    {
+        if (isPlay) bgmPlayer.Pause();
+        else bgmPlayer.UnPause();
+    }
+
     public void PlaySfx(Sfx sfx)
     {
         for (int index = 0; index < sfxPlayers.Length; index++)
@@ -69,5 +75,10 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[loopIndex].Play();
             break;
         }
+    }
+
+    public void ClickButton()
+    {
+        PlaySfx(Sfx.Click);
     }
 }

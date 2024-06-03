@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
     public int direction = 1;
     public int combo = 0;
     public bool isGameStart = false;
+    public bool isPaused = false;
 
     private bool gameEndWindowActive = false;
-    private bool isPaused = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -39,15 +39,14 @@ public class GameManager : MonoBehaviour
             {
                 Time.timeScale = (!isPaused)? 0f : 1f;
                 pauseSet.SetActive((!isPaused)? true : false);
+                if(!isPaused) AudioManager.Instance.PauseBgm(true);
+                else AudioManager.Instance.PauseBgm(false);
                 isPaused = !isPaused;
             }
         }
         //게임 결과 창
         if (gameEnd)
         {
-            AudioManager.Instance.PlayBgm(false);
-            AudioManager.Instance.PlaySfx(AudioManager.Sfx.End);
-
             result_score.text = string.Format("{0:N0}", score);
             if(!gameEndWindowActive)
                 Invoke("gameEndActive", 2f);
@@ -75,5 +74,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         pauseSet.SetActive(false);
         isPaused = false;
+        AudioManager.Instance.PauseBgm(false);
     }
 }

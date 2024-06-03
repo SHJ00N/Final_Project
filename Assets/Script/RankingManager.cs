@@ -29,7 +29,7 @@ public class RankingManager : MonoBehaviour
         if(Instance == null)    Instance = this;
         else   Destroy(gameObject);
 
-        filePath = Path.Combine(Application.dataPath, "Resources/ranking.txt"); //최고점수 파일 경로 지정
+        filePath = Path.Combine(Application.persistentDataPath, "ranking.txt"); //최고점수 파일 경로 지정
         nameInputField.characterLimit = 3;  //이름 제한 길이
         LoadScores();   //점수 로드
     }
@@ -70,6 +70,10 @@ public class RankingManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            File.Create(filePath).Close();
+        }
     }
 
     private void UpdateRanking()
@@ -85,7 +89,7 @@ public class RankingManager : MonoBehaviour
             rank_name[rank].text = entry.Key;
             rank_score[rank].text = string.Format("{0:N0}", entry.Value);
             //플레이어 랭킹 강조
-            if (entry.Key == nameInputField.text && isRigister)
+            if (entry.Key == nameInputField.text.ToUpper() && isRigister)
             {
                 playerRank[rank].color = new Color(0.9f, 0.9f, 0.4f);
                 rank_name[rank].color = new Color(0.9f, 0.9f, 0.4f);
