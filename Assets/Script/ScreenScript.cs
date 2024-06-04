@@ -8,7 +8,7 @@ public class ScreenScript : MonoBehaviour
 
     private void Awake()
     {
-        Screen.SetResolution(720, 1280, isFullScreen);
+        Screen.SetResolution(540, 960, isFullScreen);
     }
 
     private void Update()
@@ -21,6 +21,6 @@ public class ScreenScript : MonoBehaviour
     {
         Debug.Log("해상도 변경");
         isFullScreen = !isFullScreen;
-        Screen.SetResolution(720, 1280, isFullScreen);
+        Screen.SetResolution(540, 960, isFullScreen);
     }
 }

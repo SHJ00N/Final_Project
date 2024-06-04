@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
             AudioManager.Instance.PlaySfx(AudioManager.Sfx.Pierce);
         }
         //플레이어의 y좌표가 일정 이상 내려가면 적 과 플랫폼 생성
-        if(Mathf.Abs(prePlayerPosition_y - transform.position.y) > PlatformManager.Instance.platform_y_distance)
+        if(Mathf.Abs(prePlayerPosition_y - transform.position.y) >= PlatformManager.Instance.platform_y_distance)
         {
             PlatformManager.Instance.MakePlatform();
             EnemySpawnManager.Instance.SpawnEnemy();

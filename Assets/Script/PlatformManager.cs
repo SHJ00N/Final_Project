@@ -13,7 +13,7 @@ public class PlatformManager : MonoBehaviour
     public float platform_y_distance = 2.55f;
     float platform_x_startPos;
     float platform_y_startPos = 0f;
-    float platform_y_endPos = -10.2f;
+    float platform_y_endPos = -20.4f;
     private void Awake()
     {
         if (Instance == null)   //ΩÃ±€≈Ê
